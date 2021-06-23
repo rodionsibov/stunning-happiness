@@ -68,148 +68,49 @@
           "
         >
           <div class="bg-white p-5">
-            Who is the most powerful Avenger in the marvel cinematic univerce?
+            {{ currentQuestion.question }}
           </div>
         </div>
-        <div class="mt-8">
-          <div
-            class="
-              neumorph-1
-              option-default
-              bg-gray-100
-              p-2
-              rounded-lg
-              mb-3
-              relative
-            "
-          >
+        <div v-for="(choice, index) in currentQuestion.choices" :key="index">
+          <div class="mt-8">
             <div
               class="
-                absolute
-                right-0
-                top-0
-                shadow-md
-                bg-blue-700
-                p-1
-                transform
-                rotate-45
-                rounded-md
-                h-10
-                w-10
-                text-white
-                font-bold
+                neumorph-1
+                option-default
+                bg-gray-100
+                p-2
+                rounded-lg
+                mb-3
+                relative
               "
             >
-              <p class="transform -rotate-45">+10</p>
-            </div>
-            <div class="rounded-lg font-bold flex p-2">
-              <div class="p-3 rounded-lg">A</div>
-              <div class="flex items-center pl-6">Thor</div>
-            </div>
-          </div>
-          <div
-            class="
-              neumorph-1
-              option-wrong
-              bg-gray-100
-              p-2
-              rounded-lg
-              mb-3
-              relative
-            "
-          >
-            <div
-              class="
-                absolute
-                right-0
-                top-0
-                shadow-md
-                bg-blue-700
-                p-1
-                transform
-                rotate-45
-                rounded-md
-                h-10
-                w-10
-                text-white
-                font-bold
-              "
-            >
-              <p class="transform -rotate-45">+10</p>
-            </div>
-            <div class="rounded-lg font-bold flex p-2">
-              <div class="p-3 rounded-lg">B</div>
-              <div class="flex items-center pl-6">Doctor Strange</div>
-            </div>
-          </div>
-          <div
-            class="
-              neumorph-1
-              option-correct
-              bg-gray-100
-              p-2
-              rounded-lg
-              mb-3
-              relative
-            "
-          >
-            <div
-              class="
-                absolute
-                right-0
-                top-0
-                shadow-md
-                bg-blue-700
-                p-1
-                transform
-                rotate-45
-                rounded-md
-                h-10
-                w-10
-                text-white
-                font-bold
-              "
-            >
-              <p class="transform -rotate-45">+10</p>
-            </div>
-            <div class="rounded-lg font-bold flex p-2">
-              <div class="p-3 rounded-lg">C</div>
-              <div class="flex items-center pl-6">Ms Marvel</div>
-            </div>
-          </div>
-          <div
-            class="
-              neumorph-1
-              option-default
-              bg-gray-100
-              p-2
-              rounded-lg
-              mb-3
-              relative
-            "
-          >
-            <div
-              class="
-                absolute
-                right-0
-                top-0
-                shadow-md
-                bg-blue-700
-                p-1
-                transform
-                rotate-45
-                rounded-md
-                h-10
-                w-10
-                text-white
-                font-bold
-              "
-            >
-              <p class="transform -rotate-45">+10</p>
-            </div>
-            <div class="rounded-lg font-bold flex p-2">
-              <div class="p-3 rounded-lg">D</div>
-              <div class="flex items-center pl-6">Hulk</div>
+              <div
+                class="
+                  absolute
+                  right-0
+                  top-0
+                  shadow-md
+                  bg-blue-700
+                  p-1
+                  transform
+                  rotate-45
+                  rounded-md
+                  h-10
+                  w-10
+                  text-white
+                  font-bold
+                "
+              >
+                <p class="transform -rotate-45">+10</p>
+              </div>
+              <div class="rounded-lg font-bold flex p-2">
+                <div class="p-3 rounded-lg">
+                  {{ index }}
+                </div>
+                <div class="flex items-center pl-6">
+                  {{ choice }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -221,6 +122,45 @@
     </div>
   </main>
 </template>
+
+<script>
+import { ref } from "@vue/reactivity";
+import { onMounted } from "@vue/runtime-core";
+
+export default {
+  setup() {
+    let questionCounter = ref(0);
+    const currentQuestion = ref({
+      question: "",
+      answer: 1,
+      choices: [],
+    });
+
+    const questions = [
+      {
+        question: "Which programming...",
+        answer: 1,
+        choices: ["Java", "Python", "C", "Jakarta"],
+      },
+      {
+        question: "On Twitter...",
+        answer: 3,
+        choices: ["120", "260", "100"],
+      },
+    ];
+
+    const onQuizStart = () => {
+      currentQuestion.value = questions[questionCounter.value];
+    };
+
+    onMounted(() => {
+      onQuizStart();
+    });
+
+    return { currentQuestion, questions, questionCounter, onQuizStart };
+  },
+};
+</script>
 
 <style scoped>
 .neumorph-1 {
