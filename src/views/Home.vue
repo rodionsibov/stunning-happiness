@@ -74,6 +74,7 @@
         <div v-for="(choice, index) in currentQuestion.choices" :key="index">
           <div class="mt-8">
             <div
+              @click="onOptionClicked(choice, index)"
               class="
                 neumorph-1
                 option-default
@@ -153,11 +154,22 @@ export default {
       currentQuestion.value = questions[questionCounter.value];
     };
 
+    const onOptionClicked = (choice, index) => {
+      const optionId = index + 1;
+      console.log(choice);
+    };
+
     onMounted(() => {
       onQuizStart();
     });
 
-    return { currentQuestion, questions, questionCounter, onQuizStart };
+    return {
+      currentQuestion,
+      questions,
+      questionCounter,
+      onQuizStart,
+      onOptionClicked,
+    };
   },
 };
 </script>
