@@ -140,7 +140,7 @@ export default {
     const questions = [
       {
         question: "Which programming...",
-        answer: 1,
+        answer: 2,
         choices: ["Java", "Python", "C", "Jakarta"],
       },
       {
@@ -156,7 +156,11 @@ export default {
 
     const onOptionClicked = (choice, index) => {
       const optionId = index + 1;
-      console.log(choice);
+      if (currentQuestion.value.answer == optionId) {
+        console.log('you are correct');
+      } else {
+        console.log('you are wrong');
+      }
     };
 
     onMounted(() => {
