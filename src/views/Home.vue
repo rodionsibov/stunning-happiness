@@ -74,6 +74,7 @@
         <div v-for="(choice, index) in currentQuestion.choices" :key="index">
           <div class="mt-8">
             <div
+              :ref="optionChosen"
               @click="onOptionClicked(choice, index)"
               class="
                 neumorph-1
@@ -154,12 +155,24 @@ export default {
       currentQuestion.value = questions[questionCounter.value];
     };
 
+    let itemsRef = [];
+    const optionChosen = (element) => {
+      if (element) {
+        itemsRef.push(element);
+      }
+    };
+
     const onOptionClicked = (choice, index) => {
+      const divContainer = itemsRef[index];
       const optionId = index + 1;
       if (currentQuestion.value.answer == optionId) {
-        console.log('you are correct');
+        console.log("you are correct");
+        divContainer.classList.add("option-correct");
+        divContainer.classList.remove("option-default");
       } else {
-        console.log('you are wrong');
+        console.log("you are wrong");
+        divContainer.classList.add("option-wrong");
+        divContainer.classList.remove("option-default");
       }
     };
 
@@ -173,6 +186,7 @@ export default {
       questionCounter,
       onQuizStart,
       onOptionClicked,
+      optionChosen,
     };
   },
 };
