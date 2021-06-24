@@ -151,8 +151,13 @@ export default {
       },
     ];
 
-    const onQuizStart = () => {
-      currentQuestion.value = questions[questionCounter.value];
+    const loadQuestion = () => {
+      if (questions.length > questionCounter.value) {
+        currentQuestion.value = questions[questionCounter.value];
+        questionCounter.value++;
+      } else {
+        console.log("Out of questions");
+      }
     };
 
     let itemsRef = [];
@@ -160,6 +165,15 @@ export default {
       if (element) {
         itemsRef.push(element);
       }
+    };
+
+    const clearSelected = (divSelected) => {
+      setTimeout(() => {
+        divSelected.classList.remove("option-correct");
+        divSelected.classList.remove("option-wrong");
+        divSelected.classList.add("option-default");
+        loadQuestion();
+      }, 1000);
     };
 
     const onOptionClicked = (choice, index) => {
@@ -174,17 +188,18 @@ export default {
         divContainer.classList.add("option-wrong");
         divContainer.classList.remove("option-default");
       }
+      clearSelected(divContainer);
     };
 
     onMounted(() => {
-      onQuizStart();
+      loadQuestion();
     });
 
     return {
       currentQuestion,
       questions,
       questionCounter,
-      onQuizStart,
+      loadQuestion,
       onOptionClicked,
       optionChosen,
     };
