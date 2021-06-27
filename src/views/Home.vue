@@ -131,6 +131,7 @@ import { onMounted } from "@vue/runtime-core";
 
 export default {
   setup() {
+    let canClick = true;
     let questionCounter = ref(0);
     const currentQuestion = ref({
       question: "",
@@ -152,6 +153,7 @@ export default {
     ];
 
     const loadQuestion = () => {
+      canClick = true
       if (questions.length > questionCounter.value) {
         currentQuestion.value = questions[questionCounter.value];
         questionCounter.value++;
@@ -177,18 +179,23 @@ export default {
     };
 
     const onOptionClicked = (choice, index) => {
-      const divContainer = itemsRef[index];
-      const optionId = index + 1;
-      if (currentQuestion.value.answer == optionId) {
-        console.log("you are correct");
-        divContainer.classList.add("option-correct");
-        divContainer.classList.remove("option-default");
+      if (canClick) {
+        const divContainer = itemsRef[index];
+        const optionId = index + 1;
+        if (currentQuestion.value.answer == optionId) {
+          console.log("you are correct");
+          divContainer.classList.add("option-correct");
+          divContainer.classList.remove("option-default");
+        } else {
+          console.log("you are wrong");
+          divContainer.classList.add("option-wrong");
+          divContainer.classList.remove("option-default");
+        }
+        canClick = false
+        clearSelected(divContainer);
       } else {
-        console.log("you are wrong");
-        divContainer.classList.add("option-wrong");
-        divContainer.classList.remove("option-default");
+        console.log('cannot select question');
       }
-      clearSelected(divContainer);
     };
 
     onMounted(() => {
