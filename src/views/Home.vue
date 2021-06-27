@@ -50,7 +50,9 @@
       <div class="relative">
         <div class="text-right text-gray-800">
           <p class="text-xm leading-3">Score</p>
-          <p class="font-bold">60</p>
+          <p class="font-bold">
+            {{ score }}
+          </p>
         </div>
         <div class="bg-white shadow-lg p-1 rounded-full w-full h-5 mt-4">
           <div class="bg-blue-700 rounded-full w-11/12 h-full"></div>
@@ -118,7 +120,9 @@
         </div>
         <div class="mt-8 text-center">
           <div class="h-1 w-12 bg-gray-800 rounded-full mx-auto"></div>
-          <p class="font-bold text-gray-800">2/10</p>
+          <p class="font-bold text-gray-800">
+            {{ questionCounter }}/{{ questions.length }}
+          </p>
         </div>
       </div>
     </div>
@@ -133,6 +137,7 @@ export default {
   setup() {
     let canClick = true;
     let questionCounter = ref(0);
+    let score = ref(0);
     const currentQuestion = ref({
       question: "",
       answer: 1,
@@ -153,7 +158,7 @@ export default {
     ];
 
     const loadQuestion = () => {
-      canClick = true
+      canClick = true;
       if (questions.length > questionCounter.value) {
         currentQuestion.value = questions[questionCounter.value];
         questionCounter.value++;
@@ -184,6 +189,7 @@ export default {
         const optionId = index + 1;
         if (currentQuestion.value.answer == optionId) {
           console.log("you are correct");
+          score.value += 10;
           divContainer.classList.add("option-correct");
           divContainer.classList.remove("option-default");
         } else {
@@ -191,10 +197,10 @@ export default {
           divContainer.classList.add("option-wrong");
           divContainer.classList.remove("option-default");
         }
-        canClick = false
+        canClick = false;
         clearSelected(divContainer);
       } else {
-        console.log('cannot select question');
+        console.log("cannot select question");
       }
     };
 
@@ -209,6 +215,7 @@ export default {
       loadQuestion,
       onOptionClicked,
       optionChosen,
+      score,
     };
   },
 };
