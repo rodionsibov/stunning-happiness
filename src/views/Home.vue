@@ -164,6 +164,7 @@ export default {
     const loadQuestion = () => {
       canClick = true;
       if (questions.length > questionCounter.value) {
+        timer.value = 100
         currentQuestion.value = questions[questionCounter.value];
         questionCounter.value++;
       } else {
@@ -201,6 +202,7 @@ export default {
           divContainer.classList.add("option-wrong");
           divContainer.classList.remove("option-default");
         }
+        timer.value = 100
         canClick = false;
         clearSelected(divContainer);
       } else {
