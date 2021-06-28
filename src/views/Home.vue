@@ -209,8 +209,12 @@ export default {
     };
 
     const countDownTimer = function () {
-      setInterval(() => {
-        timer.value--;
+      let interval = setInterval(() => {
+        if(timer.value > 0) {
+          timer.value--;
+        } else {
+          clearInterval(interval)
+        }
       }, 150);
     };
 
