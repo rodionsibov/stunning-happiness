@@ -55,7 +55,10 @@
           </p>
         </div>
         <div class="bg-white shadow-lg p-1 rounded-full w-full h-5 mt-4">
-          <div class="bg-blue-700 rounded-full w-11/12 h-full"></div>
+          <div
+            class="bg-blue-700 rounded-full w-11/12 h-full"
+            :style="`width: ${timer}%`"
+          ></div>
         </div>
         <div
           class="
@@ -136,6 +139,7 @@ import { onMounted } from "@vue/runtime-core";
 export default {
   setup() {
     let canClick = true;
+    let timer = ref(100);
     let questionCounter = ref(0);
     let score = ref(0);
     const currentQuestion = ref({
@@ -204,8 +208,15 @@ export default {
       }
     };
 
+    const countDownTimer = function () {
+      setInterval(() => {
+        timer.value--;
+      }, 150);
+    };
+
     onMounted(() => {
       loadQuestion();
+      countDownTimer()
     });
 
     return {
@@ -216,6 +227,7 @@ export default {
       onOptionClicked,
       optionChosen,
       score,
+      timer,
     };
   },
 };
