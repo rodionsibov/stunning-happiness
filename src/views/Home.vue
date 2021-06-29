@@ -10,7 +10,7 @@
       bg-green-100
     "
   >
-    <QuizCompleteOverlay />
+    <QuizCompleteOverlay v-if="endOfQuiz" />
     <div
       class="
         w-full
@@ -143,6 +143,7 @@ export default {
     QuizCompleteOverlay,
   },
   setup() {
+    let endOfQuiz = ref(false)
     let canClick = true;
     let timer = ref(100);
     let questionCounter = ref(0);
@@ -173,7 +174,7 @@ export default {
         currentQuestion.value = questions[questionCounter.value];
         questionCounter.value++;
       } else {
-        console.log("Out of questions");
+        endOfQuiz.value = true
       }
     };
 
@@ -239,6 +240,7 @@ export default {
       optionChosen,
       score,
       timer,
+      endOfQuiz
     };
   },
 };
