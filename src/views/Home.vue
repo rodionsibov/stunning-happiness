@@ -219,7 +219,19 @@ export default {
         .then((res) => res.json())
         .then((data) => {
           console.log(data.results);
-          
+          const newQuestions = data.results.map((item) => {
+            const arrangedQuestion = {
+              question: item.question,
+              answer: "",
+              choices: "",
+            };
+            const choices = item.incorrect_answers;
+            arrangedQuestion.answer = Math.floor(Math.random() * 4 + 1);
+            choices.splice(arrangedQuestion.answer - 1, 0, item.correct_answer);
+            arrangedQuestion.choices = choices;
+            return arrangedQuestion;
+          });
+          questions.value = newQuestions;
           loadQuestion();
           countDownTimer();
         });
