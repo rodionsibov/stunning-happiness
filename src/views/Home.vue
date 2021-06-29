@@ -10,6 +10,7 @@
       bg-green-100
     "
   >
+    <QuizCompleteOverlay />
     <div
       class="
         w-full
@@ -133,10 +134,14 @@
 </template>
 
 <script>
+import QuizCompleteOverlay from "@/components/QuizCompleteOverlay.vue";
 import { ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 
 export default {
+  components: {
+    QuizCompleteOverlay,
+  },
   setup() {
     let canClick = true;
     let timer = ref(100);
@@ -164,7 +169,7 @@ export default {
     const loadQuestion = () => {
       canClick = true;
       if (questions.length > questionCounter.value) {
-        timer.value = 100
+        timer.value = 100;
         currentQuestion.value = questions[questionCounter.value];
         questionCounter.value++;
       } else {
@@ -202,7 +207,7 @@ export default {
           divContainer.classList.add("option-wrong");
           divContainer.classList.remove("option-default");
         }
-        timer.value = 100
+        timer.value = 100;
         canClick = false;
         clearSelected(divContainer);
       } else {
@@ -212,17 +217,17 @@ export default {
 
     const countDownTimer = function () {
       let interval = setInterval(() => {
-        if(timer.value > 0) {
+        if (timer.value > 0) {
           timer.value--;
         } else {
-          clearInterval(interval)
+          clearInterval(interval);
         }
       }, 150);
     };
 
     onMounted(() => {
       loadQuestion();
-      countDownTimer()
+      countDownTimer();
     });
 
     return {
