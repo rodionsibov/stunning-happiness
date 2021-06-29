@@ -143,38 +143,26 @@ export default {
     QuizCompleteOverlay,
   },
   setup() {
-    let endOfQuiz = ref(false)
+    let endOfQuiz = ref(false);
     let canClick = true;
     let timer = ref(100);
     let questionCounter = ref(0);
     let score = ref(0);
+    const questions = ref([]);
     const currentQuestion = ref({
-      question: "",
-      answer: 1,
+      question: null,
+      answer: null,
       choices: [],
     });
 
-    const questions = [
-      {
-        question: "Which programming...",
-        answer: 2,
-        choices: ["Java", "Python", "C", "Jakarta"],
-      },
-      {
-        question: "On Twitter...",
-        answer: 3,
-        choices: ["120", "260", "100"],
-      },
-    ];
-
     const loadQuestion = () => {
       canClick = true;
-      if (questions.length > questionCounter.value) {
+      if (questions.value.length > questionCounter.value) {
         timer.value = 100;
-        currentQuestion.value = questions[questionCounter.value];
+        currentQuestion.value = questions.value[questionCounter.value];
         questionCounter.value++;
       } else {
-        endOfQuiz.value = true
+        endOfQuiz.value = true;
       }
     };
 
@@ -226,9 +214,19 @@ export default {
       }, 150);
     };
 
+    const fetchQuestions = function () {
+      fetch("https://opentdb.com/api.php?amount=10&category=18")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.results);
+          
+          loadQuestion();
+          countDownTimer();
+        });
+    };
+
     onMounted(() => {
-      loadQuestion();
-      countDownTimer();
+      fetchQuestions();
     });
 
     return {
@@ -240,7 +238,7 @@ export default {
       optionChosen,
       score,
       timer,
-      endOfQuiz
+      endOfQuiz,
     };
   },
 };
